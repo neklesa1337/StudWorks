@@ -1,0 +1,65 @@
+version: '3.2'
+services:
+
+  sworks:
+    build:
+      context: ./environment/sworks
+      dockerfile: Dockerfile
+    container_name: sworks
+    command:
+      - /bin/sh
+      - -c
+      - |
+          cp /var/configs/sworks/.env /var/www/sworks/.env
+          php-fpm
+    links:
+      - mysql57:dbserver57
+    restart: unless-stopped
+    tty: true
+    working_dir: /var/www/sworks
+    volumes: 
+      - ../:/var/www/sworks
+
+  webserver:
+    image: nginx:alpine
+    container_name: webserver
+    restart: unless-stopped
+    tty: true
+    ports:
+      - 80:80
+      - 443:443
+    volumes: 
+      - ../:/var/www/sworks
+      - ./environment/nginx/conf.d/:/etc/nginx/conf.d/
+
+  mysql57:
+    image: mysql:5.7.22
+    container_name: mysql57
+    restart: unless-stopped
+    tty: true
+    command: --default-authentication-plugin=mysql_native_password
+    volumes: 
+      - mysql57-datadir:/var/lib/mysql
+    ports:
+      - 8306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-secret}
+      MYSQL_USER: ${MYSQL_USER:-root}
+      MYSQL_PASSWORD: ${MYSQL_USER_PASSWORD:-secret}
+
+  adminer:
+    container_name: adminer
+    links:
+      - mysql57:db
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+networks:
+  default:
+    external:
+      name: ${ENVIRONMENT:-dev}
+
+volumes:
+  mysql57-datadir:
