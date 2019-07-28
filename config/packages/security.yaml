@@ -37,3 +37,5 @@ security:
          - { path: ^/admin, roles: ROLE_ADMIN }
          - { path: ^/user, roles: ROLE_USER }
          - { path: ^/moder, roles: ROLE_MODER }
+         - { path: ^/api/admin, roles: [ROLE_MODER, ROLE_ADMIN]}
+         - { path: ^/api/user, roles: ROLE_USER}

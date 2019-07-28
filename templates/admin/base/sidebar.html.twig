@@ -1,0 +1,16 @@
+<aside class="main-sidebar">
+    <section class="sidebar">
+
+        <ul class="sidebar-menu" data-widget="tree">
+            {% for item in permissionService.adminMenu %}
+                <li>
+                    <a href="{{ item.link }}">
+                        <i class="{{ item.class }}"></i> <span>{{ item.label }}</span>
+                    </a>
+                </li>
+            {% endfor %}
+
+
+        </ul>
+    </section>
+</aside>

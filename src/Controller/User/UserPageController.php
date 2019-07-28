@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/user", name="app_login")
+ * @Route("/user")
  */
 class UserPageController extends AbstractController
 {
@@ -16,7 +16,6 @@ class UserPageController extends AbstractController
      */
     public function index()
     {
-        dd($this->getUser());
         return $this->json('user');
     }
 }
