@@ -21,7 +21,8 @@ class OrderTransformer extends BaseTransformer
             'id' => $order->getId(),
             'description' => $order->getDescription(),
             'createAt' => $order->getCreated(),
-            'updateAt' => $order->getUpdated()
+            'updateAt' => $order->getUpdated(),
+            'status' => $order->getStatus()
         ];
     }
 }

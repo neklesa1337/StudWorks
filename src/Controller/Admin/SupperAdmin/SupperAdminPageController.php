@@ -11,10 +11,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class SupperAdminPageController extends AbstractController
 {
     /**
-     * @Route("/")
+     * @Route("/orders")
      */
     public function index()
     {
-        return $this->json('admin');
+        return $this->render('admin/admin/orders/index.html.twig');
     }
 }

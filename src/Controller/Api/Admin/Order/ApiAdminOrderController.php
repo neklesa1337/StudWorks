@@ -10,23 +10,25 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/user")
+ * @Route("/api/admin")
  */
 class ApiAdminOrderController extends AbstractController
 {
     /**
-     * @Route("orders/created", name="api_admin_created_order_list")
+     * @Route("/orders/status/{statusId}", name="api_admin_created_order_list")
      * @param OrderService $orderService
      * @param OrderTransformer $transformer
+     * @param int $statusId
      * @return Response
      */
     public function index(
         OrderService $orderService,
-        OrderTransformer $transformer
+        OrderTransformer $transformer,
+        int $statusId
     ): Response
     {
         return $this->json($transformer->transformMany(
-            $orderService->getOrdersByStatus(Order::STATUS_CREATED)
+            $orderService->getOrdersByStatus($statusId)
         ));
     }
 }

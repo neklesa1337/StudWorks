@@ -14,11 +14,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class Order
 {
     const STATUS_CREATED = 1;
-    const STATUS_IN_PROGRESS = 2;
-    const STATUS_CHECK = 3;
-    const STATUS_DONE = 4;
-    const STATUS_APPROVE = 5;
-    const STATUS_PROBLEM = 6;
+    const STATUS_MODERATED = 2;
+    const STATUS_IN_PROGRESS = 3;
+    const STATUS_CHECK = 4;
+    const STATUS_DONE = 5;
+    const STATUS_APPROVE = 6;
+    const STATUS_PROBLEM = 7;
 
     /**
      * @ORM\Id()
