@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ApiAdminOrderController extends AbstractController
 {
     /**
-     * @Route("/orders/status/{statusId}", name="api_admin_created_order_list")
+     * @Route("/orders/status/{statusId}", name="api_admin_order_list")
      * @param OrderService $orderService
      * @param OrderTransformer $transformer
      * @param int $statusId
@@ -30,5 +30,21 @@ class ApiAdminOrderController extends AbstractController
         return $this->json($transformer->transformMany(
             $orderService->getOrdersByStatus($statusId)
         ));
+    }
+
+    /**
+     * @Route("/orders/{order}", name="api_admin_order_show")
+     * @param Order $order
+     * @param OrderTransformer $transformer
+     * @return Response
+     */
+    public function show(
+        Order $order,
+        OrderTransformer $transformer
+    ): Response
+    {
+        return $this->json(
+            $transformer->transformOne($order, true)
+        );
     }
 }

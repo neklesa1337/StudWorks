@@ -3,9 +3,10 @@
 
 namespace App\StudWorks\Order\Entity;
 
+use App\StudWorks\Order\Logs\Entity\OrderLog;
 use App\StudWorks\User\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\ORM\PersistentCollection;
 
 /**
  * @ORM\Entity
@@ -63,6 +64,19 @@ class Order
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
+
+    /**
+     * @var PersistentCollection
+     * @ORM\OneToMany(targetEntity="App\StudWorks\Order\Logs\Entity\OrderLog", mappedBy="order")
+     */
+    private $logs;
+
+    /**
+     * @var User
+     * @ORM\ManyToOne(targetEntity="App\StudWorks\User\Entity\User")
+     * @ORM\JoinColumn(name="performer_id", referencedColumnName="id")
+     */
+    private $performer;
 
     /**
      * Order constructor.
@@ -182,5 +196,29 @@ class Order
     public function setUser(User $user): void
     {
         $this->user = $user;
+    }
+
+    /**
+     * @return OrderLog[]
+     */
+    public function getLogs(): array
+    {
+        return $this->logs ? $this->logs->toArray() : [];
+    }
+
+    /**
+     * @return User
+     */
+    public function getPerformer(): User
+    {
+        return $this->performer;
+    }
+
+    /**
+     * @param User $performer
+     */
+    public function setPerformer(User $performer): void
+    {
+        $this->performer = $performer;
     }
 }

@@ -1,7 +1,11 @@
 import OrderRepository from '../Repository/OrderRepository.js';
 
 export default {
-    getOrdersByStatus(orderStatus) {
-        return OrderRepository.getOrdersByStatus(orderStatus);
+    async getOrdersByStatus(orderStatus) {
+        return (await OrderRepository.getOrdersByStatus(orderStatus)).data;
+    },
+
+    async getOrderInformationById(orderId) {
+        return (await OrderRepository.getOrderInformationById(orderId)).data;
     }
 }
