@@ -50,6 +50,19 @@ class OrderRepository extends ServiceEntityRepository
 
     /**
      * @param User $user
+     * @return Order[]
+     */
+    public function getPerformerOrders(User $user): array
+    {
+        return $this->createQueryBuilder('o')
+            ->where('o.performer = :user')
+            ->setParameter('user', $user->getId())
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @param User $user
      * @param int $status
      * @return array
      */

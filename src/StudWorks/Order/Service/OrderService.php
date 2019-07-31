@@ -67,6 +67,16 @@ class OrderService
 
     /**
      * @param User $user
+     * @return Order[]
+     */
+    public function getPerformerOrders(User $user): array
+    {
+
+        return $this->orderRepository->getPerformerOrders($user);
+    }
+
+    /**
+     * @param User $user
      * @return array
      */
     public function getHistoredUserOrders(User $user): array
@@ -116,4 +126,16 @@ class OrderService
         return $order;
     }
 
+    /**
+     * @param Order $order
+     * @return Order
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function approveOrder(Order $order): Order
+    {
+        $order->setStatus(Order::STATUS_CHECK);
+        $this->orderRepository->update();
+        return $order;
+    }
 }

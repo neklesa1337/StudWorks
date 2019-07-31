@@ -36,6 +36,7 @@ security:
     access_control:
          - { path: ^/admin, roles: ROLE_ADMIN }
          - { path: ^/user, roles: ROLE_USER }
+         - { path: ^/performer, roles: ROLE_PERFORMER }
          - { path: ^/moder, roles: ROLE_MODER }
          - { path: ^/api/admin, roles: [ROLE_MODER, ROLE_ADMIN]}
          - { path: ^/api/user, roles: ROLE_USER}
