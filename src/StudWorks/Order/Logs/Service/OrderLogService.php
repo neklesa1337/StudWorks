@@ -2,6 +2,7 @@
 
 namespace App\StudWorks\Order\Logs\Service;
 
+use App\StudWorks\Order\Dto\OrderDto;
 use App\StudWorks\Order\Entity\Order;
 use App\StudWorks\Order\Logs\Dto\OrderLogDto;
 use App\StudWorks\Order\Logs\Repository\OrderLogRepository;
@@ -29,7 +30,7 @@ class OrderLogService
         $this->logRepository = $logRepository;
     }
 
-    public function pushLog(OrderLogDto $dto)
+    public function pushLog(Order $order, OrderDto $orderDto)
     {
 
     }

@@ -46,8 +46,8 @@ class OrderTransformer
             $data['logs'] = $this->logTransformer->transformMany(
                 $order->getLogs()
             );
-            $data['performerId'] = $order->getPerformer()->getId();
-            $data['performerName'] = $order->getPerformer()->getUsername();
+            $data['performerId'] = $order->getPerformer() ? $order->getPerformer()->getId() : null;
+            $data['performerName'] = $order->getPerformer() ? $order->getPerformer()->getUsername() : null;
         }
 
         return $data;

@@ -71,6 +71,15 @@ class OrderRepository extends ServiceEntityRepository
     public function create(Order $order)
     {
         $this->getEntityManager()->persist($order);
+        $this->update();
+    }
+
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function update()
+    {
         $this->getEntityManager()->flush();
     }
 }

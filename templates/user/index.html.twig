@@ -1,0 +1,31 @@
+{% include 'base.html.twig' %}
+
+{% block body %}
+    <h1>hello</h1>
+
+
+    <form action="{{ path('user_create_order') }}" method="post">
+        <div>
+            <h1>Create Order</h1>
+        </div>
+        <div>
+            <label>
+                Description
+                <br>
+                <textarea
+                    name="description"
+                ></textarea>
+            </label>
+        </div>
+        <br>
+        <div>
+            <label>
+                Add files
+                <br>
+                <input type="file" multiple>
+            </label>
+        </div>
+        <br>
+        <input type="submit" value="Create">
+    </form>
+{% endblock %}

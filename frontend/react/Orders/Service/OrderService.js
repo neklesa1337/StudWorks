@@ -7,5 +7,9 @@ export default {
 
     async getOrderInformationById(orderId) {
         return (await OrderRepository.getOrderInformationById(orderId)).data;
+    },
+
+    async updateOrder(order) {
+        return (await OrderRepository.updateOrder(order)).data;
     }
 }

@@ -1,6 +1,4 @@
 import React from 'react';
-import OrderService from '../../Service/OrderService';
-import { convertStatus } from '../../../../Orders/Settings';
 
 export default class OrderLogs extends React.Component {
     constructor(props) {
@@ -11,7 +9,6 @@ export default class OrderLogs extends React.Component {
     }
 
     render() {
-        let { order } = this.state;
         return <div className="box-body">
             <div className="box box-primary">
                 <div className="box-body box-profile">
@@ -36,7 +33,9 @@ export default class OrderLogs extends React.Component {
 
     renderLines() {
         return this.state.order.logs.map((log) => {
-            return <tr>
+            return <tr
+                key={ log.id }
+            >
                 <td>
                     { log.description }
                 </td>

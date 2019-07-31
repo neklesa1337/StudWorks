@@ -18,4 +18,17 @@ class UserRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, User::class);
     }
+
+    /**
+     * @param $status
+     * @return User[]
+     */
+    public function findUsersByStatus($status): array
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.roles like :status')
+            ->setParameter('status', '%' . $status . '%')
+            ->getQuery()
+            ->getResult();
+    }
 }

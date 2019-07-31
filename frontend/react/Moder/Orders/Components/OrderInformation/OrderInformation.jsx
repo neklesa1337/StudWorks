@@ -1,8 +1,10 @@
 import React from 'react';
 import OrderService from '../../../../Orders/Service/OrderService';
 import OrderEditor from './OrderEditor';
-import OrderLogs from './OrderLogs';
 import StatusManger from '../../../../Orders/Components/StatusManager/StatusManger';
+import ModerateOrderField from  '../../../../Orders/Components/StatusManager/ModerateOrderField';
+import {convertStatus} from "../../../../Orders/Settings";
+
 
 export default class OrderInformation extends React.Component {
     constructor(props) {
@@ -13,6 +15,7 @@ export default class OrderInformation extends React.Component {
             close: props.close,
         };
     }
+
     async componentDidMount() {
         let order = await OrderService.getOrderInformationById(
             this.state.orderId
@@ -44,8 +47,9 @@ export default class OrderInformation extends React.Component {
                         </div>
 
                         { order ? (
-                            <StatusManger
+                            <ModerateOrderField
                                 order={ order }
+                                changeStatus={ this.changeStatus.bind(this) }
                             />
                         ) : '' }
 
@@ -65,21 +69,21 @@ export default class OrderInformation extends React.Component {
 
         return (
             <div className="row">
-                <div className="col-lg-5">
-                    <OrderEditor
-                        order={ this.state.order }
-                    />
-                </div>
-                <div className="col-lg-7">
-                    <OrderLogs
-                        order={ this.state.order }
-                    />
-                </div>
+                <OrderEditor
+                    order={ this.state.order }
+                />
             </div>
         );
     }
 
     closeEditor() {
+        this.state.close();
+    }
+
+    changeStatus(statusId) {
+        this.setState({
+            status: convertStatus(statusId - 1),
+        });
         this.state.close();
     }
 }

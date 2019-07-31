@@ -4,8 +4,10 @@ namespace App\StudWorks\Order\Service;
 
 use App\StudWorks\Order\Dto\OrderDto;
 use App\StudWorks\Order\Entity\Order;
+use App\StudWorks\Order\Logs\Service\OrderLogService;
 use App\StudWorks\Order\Repository\OrderRepository;
 use App\StudWorks\User\Entity\User;
+use App\StudWorks\User\Service\UserService;
 
 /**
  * Class OrderService
@@ -19,14 +21,30 @@ class OrderService
     private $orderRepository;
 
     /**
+     * @var UserService
+     */
+    private $userService;
+
+    /**
+     * @var OrderLogService
+     */
+    private $logService;
+
+    /**
      * OrderService constructor.
      * @param OrderRepository $orderRepository
+     * @param UserService $userService
+     * @param OrderLogService $logService
      */
     public function __construct(
-        OrderRepository $orderRepository
+        OrderRepository $orderRepository,
+        UserService $userService,
+        OrderLogService $logService
     )
     {
         $this->orderRepository = $orderRepository;
+        $this->userService = $userService;
+        $this->logService = $logService;
     }
 
     /**
@@ -68,9 +86,34 @@ class OrderService
         $order = new Order();
         $order->setUser($user);
         $order->setDescription($dto->getDescription());
+        $order->setStatus(Order::STATUS_CREATED);
 
         $this->orderRepository->create($order);
 
         return $order;
     }
+
+    /**
+     * @param Order $order
+     * @param OrderDto $dto
+     * @return Order
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function updateOrder(Order $order, OrderDto $dto): Order
+    {
+        $this->logService->pushLog($order, $dto);
+        $order->setDescription($dto->getDescription());
+        $order->setStatus($dto->getStatus());
+        if ($dto->getPerformerId()) {
+            $order->setPerformer(
+                $this->userService->getUserById($dto->getPerformerId())
+            );
+        }
+
+        $this->orderRepository->update();
+
+        return $order;
+    }
+
 }

@@ -1,6 +1,5 @@
 import React from 'react';
 import OrderLine from './OrderLine';
-import OrderIds from '../../../Orders/Settings';
 import OrderService from '../../../Orders/Service/OrderService';
 import OrderInformation from './OrderInformation/OrderInformation';
 
@@ -8,7 +7,7 @@ export default class AdminOrders extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            orderStatusId: 2,
+            orderStatusId: 1,
             orders: [],
             selectedOrderId: null
         };
@@ -45,20 +44,6 @@ export default class AdminOrders extends React.Component {
                     <div className="row">
                         <div className="col-xs-1">
                             <h3 className="box-title">Orders Table</h3>
-                        </div>
-                        <div className="form-group col-xs-3">
-                            <select
-                                className="form-control"
-                                value={ this.state.orderStatusId }
-                                onChange={ this.changeOrderId.bind(this) }
-                            >
-                                { OrderIds.map((item) => {
-                                    return <option
-                                        key={ item.id }
-                                        value={ item.id }
-                                    >{ item.label }</option>;
-                                }) }
-                            </select>
                         </div>
                     </div>
                 </div>

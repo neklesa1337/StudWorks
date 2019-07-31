@@ -27,6 +27,22 @@ class OrderDto
      */
     public function getDescription(): string
     {
-        return  $this->data['description'];
+        return $this->data['description'];
+    }
+
+    /**
+     * @return int
+     */
+    public function getStatus(): int
+    {
+        return (int) $this->data['status'];
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getPerformerId(): ?int
+    {
+        return $this->data['performerId'] ? (int) $this->data['performerId'] : null;
     }
 }

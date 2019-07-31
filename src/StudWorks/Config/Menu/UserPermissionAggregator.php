@@ -3,6 +3,7 @@
 namespace App\StudWorks\Config\Menu;
 
 use App\StudWorks\User\Entity\User;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
@@ -17,19 +18,30 @@ class UserPermissionAggregator
     private $user;
 
     /**
+     * @var UrlGeneratorInterface
+     */
+    private $urlGenerator;
+
+    /**
      * UserPermissionAggregator constructor.
      * @param TokenStorageInterface $tokenStorage
+     * @param UrlGeneratorInterface $urlGenerator
      */
     public function __construct(
-        TokenStorageInterface $tokenStorage
+        TokenStorageInterface $tokenStorage,
+        UrlGeneratorInterface $urlGenerator
     )
     {
+        $this->urlGenerator = $urlGenerator;
         $token = $tokenStorage->getToken();
         if ($token) {
             $this->user = $token->getUser() instanceof User ? $token->getUser() : null;
         }
     }
 
+    /**
+     * @return array
+     */
     public function getAdminMenu(): array
     {
         if (!$this->user) {
@@ -48,12 +60,15 @@ class UserPermissionAggregator
         return $items;
     }
 
+    /**
+     * @return array
+     */
     private function getModerMenuItems(): array
     {
         return [
             [
                 'label' => 'Orders Moderation',
-                'link' => '/',
+                'link' => $this->urlGenerator->generate('moder_orders'),
                 'class' => 'fa fa-book'
             ]
         ];
@@ -67,7 +82,7 @@ class UserPermissionAggregator
         return [
             [
                 'label' => 'Orders Administration',
-                'link' => '/',
+                'link' => $this->urlGenerator->generate('admin_orders'),
                 'class' => 'fa fa-book'
             ]
         ];

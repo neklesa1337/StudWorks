@@ -1,4 +1,4 @@
-const statuses = [
+const statusesData = [
     {
         label: 'Создан',
         id: 1,
@@ -36,8 +36,18 @@ const statuses = [
     },
 ];
 
+export const OrderStatus = {
+     STATUS_CREATED : 1,
+     STATUS_MODERATED : 2,
+     STATUS_IN_PROGRESS : 3,
+     STATUS_CHECK : 4,
+     STATUS_DONE : 5,
+     STATUS_APPROVE : 6,
+     STATUS_PROBLEM : 7
+};
+
 export function convertStatus(id) {
-    return statuses[id];
+    return statusesData[id];
 }
 
-export default statuses;
+export default statusesData;

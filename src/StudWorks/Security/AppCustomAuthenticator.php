@@ -3,6 +3,7 @@
 namespace App\StudWorks\Security;
 
 use App\StudWorks\User\Entity\User;
+use App\StudWorks\User\Model\Role;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -83,6 +84,29 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator
     {
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
+        }
+        $userRoles = $token->getUser()->getRoles();
+
+        if (in_array(Role::USER, $userRoles)) {
+            return new RedirectResponse('/');
+        }
+
+        if (in_array(Role::MODER, $userRoles)) {
+            return new RedirectResponse(
+                $this->urlGenerator->generate('moder_dashboard')
+            );
+        }
+
+        if (in_array(Role::ADMIN, $userRoles)) {
+            return new RedirectResponse(
+                $this->urlGenerator->generate('admin_dashboard')
+            );
+        }
+
+        if (in_array(Role::PERFORMER, $userRoles)) {
+            return new RedirectResponse(
+                $this->urlGenerator->generate('app_login')
+            );
         }
 
         return new RedirectResponse('/login');

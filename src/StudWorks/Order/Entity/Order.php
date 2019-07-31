@@ -72,7 +72,7 @@ class Order
     private $logs;
 
     /**
-     * @var User
+     * @var ?User
      * @ORM\ManyToOne(targetEntity="App\StudWorks\User\Entity\User")
      * @ORM\JoinColumn(name="performer_id", referencedColumnName="id")
      */
@@ -207,9 +207,9 @@ class Order
     }
 
     /**
-     * @return User
+     * @return ?User
      */
-    public function getPerformer(): User
+    public function getPerformer(): ?User
     {
         return $this->performer;
     }
