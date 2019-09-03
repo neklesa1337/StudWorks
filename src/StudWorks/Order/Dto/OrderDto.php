@@ -2,6 +2,8 @@
 
 namespace App\StudWorks\Order\Dto;
 
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 /**
  * Class OrderDto
  * @package App\StudWorks\Order\Dto
@@ -9,40 +11,44 @@ namespace App\StudWorks\Order\Dto;
 class OrderDto
 {
     /**
-     * @var array
+     * @var string
      */
-    private $data;
+    private $description;
 
     /**
-     * OrderDto constructor.
-     * @param array $data
+     * @var UploadedFile[]
      */
-    public function __construct(array $data)
-    {
-        $this->data = $data;
-    }
+    private $orderFiles;
 
     /**
      * @return string
      */
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
-        return $this->data['description'];
+        return $this->description;
     }
 
     /**
-     * @return int
+     * @param string $description
      */
-    public function getStatus(): int
+    public function setDescription(string $description): void
     {
-        return (int) $this->data['status'];
+        $this->description = $description;
     }
 
     /**
-     * @return int|null
+     * @return UploadedFile[]
      */
-    public function getPerformerId(): ?int
+    public function getOrderFiles(): array
     {
-        return $this->data['performerId'] ? (int) $this->data['performerId'] : null;
+        return $this->orderFiles ?? [];
+    }
+
+    /**
+     * @param UploadedFile[] $orderFiles
+     */
+    public function setOrderFiles(array $orderFiles): void
+    {
+        $this->orderFiles = $orderFiles;
     }
 }

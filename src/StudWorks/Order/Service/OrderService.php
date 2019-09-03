@@ -2,6 +2,7 @@
 
 namespace App\StudWorks\Order\Service;
 
+use App\StudWorks\Files\Service\OrderFileService;
 use App\StudWorks\Order\Dto\OrderDto;
 use App\StudWorks\Order\Entity\Order;
 use App\StudWorks\Order\Logs\Service\OrderLogService;
@@ -31,20 +32,29 @@ class OrderService
     private $logService;
 
     /**
+     * @var OrderFileService
+     */
+    private $fileService;
+
+
+    /**
      * OrderService constructor.
      * @param OrderRepository $orderRepository
      * @param UserService $userService
      * @param OrderLogService $logService
+     * @param OrderFileService $fileService
      */
     public function __construct(
         OrderRepository $orderRepository,
         UserService $userService,
-        OrderLogService $logService
+        OrderLogService $logService,
+        OrderFileService $fileService
     )
     {
         $this->orderRepository = $orderRepository;
         $this->userService = $userService;
         $this->logService = $logService;
+        $this->fileService = $fileService;
     }
 
     /**
@@ -71,7 +81,6 @@ class OrderService
      */
     public function getPerformerOrders(User $user): array
     {
-
         return $this->orderRepository->getPerformerOrders($user);
     }
 
@@ -98,8 +107,11 @@ class OrderService
         $order->setDescription($dto->getDescription());
         $order->setStatus(Order::STATUS_CREATED);
 
-        $this->orderRepository->create($order);
+        foreach ($dto->getOrderFiles() as $file) {
+            $this->fileService->createOrderFile($file, $order);
+        }
 
+        $this->orderRepository->create($order);
         return $order;
     }
 

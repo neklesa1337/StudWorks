@@ -2,6 +2,7 @@
 
 namespace App\StudWorks\Order\Transformer;
 
+use App\StudWorks\Files\Transformer\OrderFileTransformer;
 use App\StudWorks\Order\Entity\Order;
 use App\StudWorks\Order\Logs\Transformer\OrderLogTransformer;
 
@@ -17,14 +18,22 @@ class OrderTransformer
     private $logTransformer;
 
     /**
+     * @var OrderFileTransformer
+     */
+    private $orderFileTransformer;
+
+    /**
      * OrderTransformer constructor.
      * @param OrderLogTransformer $logTransformer
+     * @param OrderFileTransformer $orderFileTransformer
      */
     public function __construct(
-        OrderLogTransformer $logTransformer
+        OrderLogTransformer $logTransformer,
+        OrderFileTransformer $orderFileTransformer
     )
     {
         $this->logTransformer = $logTransformer;
+        $this->orderFileTransformer = $orderFileTransformer;
     }
 
     /**
@@ -39,7 +48,10 @@ class OrderTransformer
             'description' => $order->getDescription(),
             'createAt' => $order->getCreated(),
             'updateAt' => $order->getUpdated(),
-            'status' => $order->getStatus()
+            'status' => $order->getStatus(),
+            'customerFiles' => $this->orderFileTransformer->transformMany(
+                $order->getCustomerFiles()->toArray()
+            ),
         ];
 
         if ($detailTransform) {
@@ -60,8 +72,8 @@ class OrderTransformer
      */
     public function transformMany(array $items, bool $detailTransform = false): array
     {
-        return  array_map(function ($item) use ($detailTransform) {
-            return $this->transformOne($item, $detailTransform);
+        return  array_map(function (Order $order) use ($detailTransform) {
+            return $this->transformOne($order, $detailTransform);
         },$items);
     }
 }

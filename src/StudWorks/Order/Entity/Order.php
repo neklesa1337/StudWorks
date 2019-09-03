@@ -3,8 +3,11 @@
 
 namespace App\StudWorks\Order\Entity;
 
+use App\StudWorks\Files\Entity\OrderFile;
 use App\StudWorks\Order\Logs\Entity\OrderLog;
 use App\StudWorks\User\Entity\User;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
 
@@ -41,12 +44,6 @@ class Order
     private $description;
 
     /**
-     * @var string|null
-     * @ORM\Column(type="string", name="file")
-     */
-    private $file;
-
-    /**
      * @var \DateTimeInterface
      * @ORM\Column(type="datetime", name="updated")
      */
@@ -79,11 +76,17 @@ class Order
     private $performer;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\StudWorks\Files\Entity\OrderFile", mappedBy="studOrder")
+     */
+    private $customerFiles;
+
+    /**
      * Order constructor.
      */
     public function __construct()
     {
         $this->status = self::STATUS_CREATED;
+        $this->customerFiles = new ArrayCollection();
     }
 
     /**
@@ -132,22 +135,6 @@ class Order
     public function setDescription(string $description): void
     {
         $this->description = $description;
-    }
-
-    /**
-     * @return string
-     */
-    public function getFile(): ?string
-    {
-        return $this->file;
-    }
-
-    /**
-     * @param string|null $file
-     */
-    public function setFile(string $file): void
-    {
-        $this->file = $file;
     }
 
     /**
@@ -220,5 +207,13 @@ class Order
     public function setPerformer(User $performer): void
     {
         $this->performer = $performer;
+    }
+
+    /**
+     * @return Collection|OrderFile[]
+     */
+    public function getCustomerFiles(): Collection
+    {
+        return $this->customerFiles;
     }
 }
