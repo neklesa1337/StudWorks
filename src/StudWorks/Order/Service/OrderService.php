@@ -3,6 +3,7 @@
 namespace App\StudWorks\Order\Service;
 
 use App\StudWorks\Files\Service\OrderFileService;
+use App\StudWorks\Order\Dto\NewOrderDto;
 use App\StudWorks\Order\Dto\OrderDto;
 use App\StudWorks\Order\Entity\Order;
 use App\StudWorks\Order\Logs\Service\OrderLogService;
@@ -95,12 +96,12 @@ class OrderService
 
     /**
      * @param User $user
-     * @param OrderDto $dto
+     * @param NewOrderDto $dto
      * @return Order
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function createOrder(User $user, OrderDto $dto): Order
+    public function createOrder(User $user, NewOrderDto $dto): Order
     {
         $order = new Order();
         $order->setUser($user);
@@ -144,10 +145,32 @@ class OrderService
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function approveOrder(Order $order): Order
+    public function performerExecuteOrder(Order $order): Order
     {
-        $order->setStatus(Order::STATUS_CHECK);
+        $order->setStatus(Order::STATUS_ON_CHECK);
         $this->orderRepository->update();
         return $order;
+    }
+
+    /**
+     * @param User $user
+     * @return Order[]
+     */
+    public function getOrdersByUser(User $user): array
+    {
+        return $this->orderRepository->findBy(['user' => $user]);
+    }
+
+    /**
+     * @param Order $order
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function approveFirstPayment(Order $order)
+    {
+        if ($order->getStatus() == Order::STATUS_CREATED) {
+            $order->setStatus(Order::STATUS_FIRST_PAYMENT_DONE);
+            $this->orderRepository->update();
+        }
     }
 }

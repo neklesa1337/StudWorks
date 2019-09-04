@@ -5,4 +5,21 @@
 
 
     {{ form(form, {'action': path('user_create_order')})  }}
+
+<h3>ORDERS</h3>
+    <ul>
+        {% for order in orders %}
+            <li>
+                <div class="row">
+                    <div class="col-3">{{ order.created.format('y-m-d') }}</div>
+                    <div class="col-3">{{ order.status }}</div>
+                    <div class="col-3">
+                        {% if order.status == 1 %}
+                            <a href="{{ path('order_approve_first_payment', {'order' : order.id}) }}">approve first payment</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock %}

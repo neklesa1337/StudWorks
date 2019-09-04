@@ -40,7 +40,7 @@ class PerformerController extends AbstractController
         OrderService $orderService
     ): Response
     {
-        $orderService->approveOrder($order);
+        $orderService->performerExecuteOrder($order);
         return $this->redirectToRoute('performer_profiler');
     }
 }

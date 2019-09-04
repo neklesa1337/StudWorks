@@ -4,7 +4,6 @@ namespace App\StudWorks\Order\Logs\Service;
 
 use App\StudWorks\Order\Dto\OrderDto;
 use App\StudWorks\Order\Entity\Order;
-use App\StudWorks\Order\Logs\Dto\OrderLogDto;
 use App\StudWorks\Order\Logs\Repository\OrderLogRepository;
 use App\StudWorks\User\Entity\User;
 

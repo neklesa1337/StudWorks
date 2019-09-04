@@ -21,7 +21,7 @@ class OrderLog
 
     /**
      * @var string
-     * @ORM\Column(type="string", name="description")
+     * @ORM\Column(type="json", name="description")
      */
     private $description;
 

@@ -38,5 +38,6 @@ security:
          - { path: ^/user, roles: ROLE_USER }
          - { path: ^/performer, roles: ROLE_PERFORMER }
          - { path: ^/moder, roles: ROLE_MODER }
-         - { path: ^/api/admin, roles: [ROLE_MODER, ROLE_ADMIN]}
+         - { path: ^/corrector, roles: ROLE_CORRECTOR }
+         - { path: ^/api/admin, roles: [ROLE_MODER, ROLE_ADMIN, ROLE_CORRECTOR]}
          - { path: ^/api/user, roles: ROLE_USER}

@@ -1,6 +1,5 @@
 import React from 'react';
-import OrderService from '../../../../Orders/Service/OrderService';
-import { convertStatus } from '../../../../Orders/Settings';
+import OrderFileItem from '../../../../Files/Components/OrderFileItem';
 
 export default class OrderEditor extends React.Component {
     constructor(props) {
@@ -36,21 +35,14 @@ export default class OrderEditor extends React.Component {
                                 </label>
                                 <div>
                                     <ul>
-                                        <li className="list-group-item">
-                                            <b>Имя файла</b> <a className="pull-right">Скачать</a>
-                                        </li>
-                                        <li className="list-group-item">
-                                            <b>Имя файла</b> <a className="pull-right">Скачать</a>
-                                        </li>
-                                        <li className="list-group-item">
-                                            <b>Имя файла</b> <a className="pull-right">Скачать</a>
-                                        </li>
+                                        { order.customerFiles.map((file) => {
+                                            return <OrderFileItem
+                                                file={ file }
+                                            />
+                                        }) }
                                     </ul>
                                 </div>
                             </div>
-                        </li>
-                        <li className="list-group-item">
-                            <b>Итоговый Архив</b> <a className="pull-right">Скачать</a>
                         </li>
                     </ul>
 

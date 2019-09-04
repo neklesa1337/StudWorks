@@ -65,12 +65,12 @@ export default class OrderInformation extends React.Component {
 
         return (
             <div className="row">
-                <div className="col-lg-5">
+                <div className="col-lg-6">
                     <OrderEditor
                         order={ this.state.order }
                     />
                 </div>
-                <div className="col-lg-7">
+                <div className="col-lg-6">
                     <OrderLogs
                         order={ this.state.order }
                     />

@@ -38,7 +38,7 @@ export default class StatusManger extends React.Component {
     renderStatusInterface() {
         let { status, order} = this.state;
 
-        if ( status.id === OrderStatus.STATUS_CREATED ) {
+        if ( status.id === OrderStatus.STATUS_FIRST_PAYMENT_DONE ) {
             return <ModerateOrderField
                 order={ order }
                 changeStatus={ this.changeStatus.bind(this) }

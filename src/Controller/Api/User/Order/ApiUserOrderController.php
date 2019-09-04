@@ -3,7 +3,7 @@
 
 namespace App\Controller\Api\User\Order;
 
-use App\StudWorks\Order\Dto\OrderDto;
+use App\StudWorks\Order\Dto\NewOrderDto;
 use App\StudWorks\Order\Entity\Order;
 use App\StudWorks\Order\Service\OrderService;
 use App\StudWorks\Order\Transformer\OrderTransformer;
@@ -79,7 +79,7 @@ class ApiUserOrderController extends AbstractController
         return $this->json($transformer->transformOne(
             $orderService->createOrder(
                 $this->getUser(),
-                new OrderDto(json_decode($request->getContent(), true))
+                new NewOrderDto(json_decode($request->getContent(), true))
             )
         ));
     }

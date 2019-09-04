@@ -2,7 +2,7 @@
 
 namespace App\Controller\User;
 
-use App\StudWorks\Order\Dto\OrderDto;
+use App\StudWorks\Order\Dto\NewOrderDto;
 use App\StudWorks\Order\Form\CreateOrderType;
 use App\StudWorks\Order\Service\OrderService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,13 +17,17 @@ class UserPageController extends AbstractController
 {
     /**
      * @Route("", methods={"GET"}, name="user_profiler")
+     * @param OrderService $orderService
+     * @return Response
      */
-    public function index(): Response
+    public function index(
+        OrderService $orderService
+    ): Response
     {
         $form = $this->createForm(CreateOrderType::class, []);
-
         return $this->render('user/index.html.twig', [
             'form' => $form->createView(),
+            'orders' => $orderService->getOrdersByUser($this->getUser())
         ]);
     }
 
@@ -40,7 +44,7 @@ class UserPageController extends AbstractController
         OrderService $orderService
     ): Response
     {
-        $form = $this->createForm(CreateOrderType::class, new OrderDto);
+        $form = $this->createForm(CreateOrderType::class, new NewOrderDto);
 
         $form->handleRequest($request);
 

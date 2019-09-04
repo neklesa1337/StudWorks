@@ -18,12 +18,16 @@ use Doctrine\ORM\PersistentCollection;
 class Order
 {
     const STATUS_CREATED = 1;
-    const STATUS_MODERATED = 2;
-    const STATUS_IN_PROGRESS = 3;
-    const STATUS_CHECK = 4;
-    const STATUS_DONE = 5;
-    const STATUS_APPROVE = 6;
-    const STATUS_PROBLEM = 7;
+    const STATUS_FIRST_PAYMENT_DONE = 2;
+    const STATUS_MODERATED = 3;
+    const STATUS_NOT_MODERATED = 4;
+    const STATUS_IN_PROGRESS = 5;
+    const STATUS_ON_CHECK = 6;
+    const STATUS_WORK_DONE = 7;
+    const STATUS_SECOND_PAYMENT_DONE = 8;
+    const STATUS_CLIENT_PROBLEM = 9;
+    const STATUS_APPROVE = 10;
+    const STATUS_PROBLEM = 11;
 
     /**
      * @ORM\Id()

@@ -3,12 +3,13 @@ import OrderLine from './OrderLine';
 import OrderIds from '../../../Orders/Settings';
 import OrderService from '../../../Orders/Service/OrderService';
 import OrderInformation from './OrderInformation/OrderInformation';
+import { OrderStatus } from '../../../Orders/Settings';
 
 export default class AdminOrders extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            orderStatusId: 2,
+            orderStatusId: OrderStatus.STATUS_MODERATED,
             orders: [],
             selectedOrderId: null
         };
