@@ -1,0 +1,18 @@
+{% include 'base.html.twig' %}
+
+{% block body %}
+    <h3>performer order {{ order.id }}</h3>
+    <div>
+        <h3>Описание</h3>
+        <p>{{ order.description }}</p>
+    </div>
+    <div>
+        <h3>Файлы</h3>
+        <ul>
+            {% for file in order.customerFiles %}
+                <li>{{ file.path }}</li>
+            {% endfor %}
+        </ul>
+        {{ form(form, {'action': path('performer_order_aprove', {'order' : order.id})}) }}
+    </div>
+{% endblock %}

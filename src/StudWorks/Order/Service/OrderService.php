@@ -10,6 +10,7 @@ use App\StudWorks\Order\Logs\Service\OrderLogService;
 use App\StudWorks\Order\Repository\OrderRepository;
 use App\StudWorks\User\Entity\User;
 use App\StudWorks\User\Service\UserService;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Class OrderService
@@ -36,7 +37,6 @@ class OrderService
      * @var OrderFileService
      */
     private $fileService;
-
 
     /**
      * OrderService constructor.
@@ -141,12 +141,15 @@ class OrderService
 
     /**
      * @param Order $order
+     * @param UploadedFile $file
      * @return Order
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function performerExecuteOrder(Order $order): Order
+    public function performerExecuteOrder(Order $order, UploadedFile $file): Order
     {
+        $resultFile = $this->fileService->createOrderFile($file, $order);
+        $resultFile->setIsCustomerFile(false);
         $order->setStatus(Order::STATUS_ON_CHECK);
         $this->orderRepository->update();
         return $order;
