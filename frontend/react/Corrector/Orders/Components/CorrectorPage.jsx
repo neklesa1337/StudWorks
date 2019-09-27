@@ -1,14 +1,14 @@
 import React from 'react';
-import OrderLine from './OrderLine';
+import OrderLine from '../../../Lib/Components/OrderLine';
 import OrderService from '../../../Orders/Service/OrderService';
 import OrderInformation from './OrderInformation/OrderInformation';
 import { OrderStatus } from '../../../Orders/Settings';
 
-export default class AdminOrders extends React.Component {
+export default class CorrectorPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            orderStatusId: OrderStatus.STATUS_FIRST_PAYMENT_DONE,
+            orderStatusId: OrderStatus.STATUS_ON_CHECK,
             orders: [],
             selectedOrderId: null
         };

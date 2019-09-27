@@ -82,4 +82,62 @@ class ApiAdminOrderController extends AbstractController
             )
         ));
     }
+
+    /**
+     * @Route(
+     *     "/orders/{order}/unmoderate",
+     *     name="api_admin_order_unmoderate",
+     *     methods={"POST"}
+     * )
+     * @param Order $order
+     * @param Request $request
+     * @param OrderService $orderService
+     * @param OrderTransformer $transformer
+     * @return Response
+     * @throws \Exception
+     */
+    public function unmoderated(
+        Order $order,
+        Request $request,
+        OrderService $orderService,
+        OrderTransformer $transformer
+    ): Response
+    {
+        return $this->json($transformer->transformOne(
+            $orderService->unModerateOrder(
+                $order,
+                $this->getUser(),
+                json_decode($request->getContent(), true)['comment']
+            )
+        ));
+    }
+
+    /**
+     * @Route(
+     *     "/orders/{order}/uncorrect",
+     *     name="api_admin_order_uncorrcted",
+     *     methods={"POST"}
+     * )
+     * @param Order $order
+     * @param Request $request
+     * @param OrderService $orderService
+     * @param OrderTransformer $transformer
+     * @return Response
+     * @throws \Exception
+     */
+    public function uncorrected(
+        Order $order,
+        Request $request,
+        OrderService $orderService,
+        OrderTransformer $transformer
+    ): Response
+    {
+        return $this->json($transformer->transformOne(
+            $orderService->unCorrectOrder(
+                $order,
+                $this->getUser(),
+                json_decode($request->getContent(), true)['comment']
+            )
+        ));
+    }
 }

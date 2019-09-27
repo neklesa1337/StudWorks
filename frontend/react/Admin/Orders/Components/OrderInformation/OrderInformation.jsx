@@ -1,6 +1,6 @@
 import React from 'react';
 import OrderService from '../../../../Orders/Service/OrderService';
-import OrderEditor from './OrderEditor';
+import OrderEditor from '../../../../Lib/Components/OrderEditor';
 import OrderLogs from './OrderLogs';
 import StatusManger from '../../../../Orders/Components/StatusManager/StatusManger';
 

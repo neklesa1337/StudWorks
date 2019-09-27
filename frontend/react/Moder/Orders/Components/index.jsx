@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import AdminOrders from './AdminOrders.jsx';
+import ModerPage from './ModerPage';
 
 'use strict';
 
 const domContainer = document.querySelector('#mode_order_moderation');
 if (domContainer) {
-    ReactDOM.render(React.createElement(AdminOrders), domContainer);
+    ReactDOM.render(React.createElement(ModerPage), domContainer);
 }

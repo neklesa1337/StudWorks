@@ -3,6 +3,8 @@
 namespace App\StudWorks\Order\Service;
 
 use App\StudWorks\Files\Service\OrderFileService;
+use App\StudWorks\Order\Comment\Entity\OrderComment;
+use App\StudWorks\Order\Comment\Service\OrderCommentService;
 use App\StudWorks\Order\Dto\NewOrderDto;
 use App\StudWorks\Order\Dto\OrderDto;
 use App\StudWorks\Order\Entity\Order;
@@ -39,23 +41,39 @@ class OrderService
     private $fileService;
 
     /**
+     * @var OrderStatusProcessor
+     */
+    private $statusProcessor;
+
+    /**
+     * @var OrderCommentService
+     */
+    private $commentService;
+
+    /**
      * OrderService constructor.
      * @param OrderRepository $orderRepository
      * @param UserService $userService
      * @param OrderLogService $logService
      * @param OrderFileService $fileService
+     * @param OrderStatusProcessor $statusProcessor
+     * @param OrderCommentService $commentService
      */
     public function __construct(
         OrderRepository $orderRepository,
         UserService $userService,
         OrderLogService $logService,
-        OrderFileService $fileService
+        OrderFileService $fileService,
+        OrderStatusProcessor $statusProcessor,
+        OrderCommentService $commentService
     )
     {
         $this->orderRepository = $orderRepository;
         $this->userService = $userService;
         $this->logService = $logService;
         $this->fileService = $fileService;
+        $this->statusProcessor = $statusProcessor;
+        $this->commentService = $commentService;
     }
 
     /**
@@ -175,5 +193,55 @@ class OrderService
             $order->setStatus(Order::STATUS_FIRST_PAYMENT_DONE);
             $this->orderRepository->update();
         }
+    }
+
+    /**
+     * @param Order $order
+     * @param User $user
+     * @param string $comment
+     * @return Order
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function unModerateOrder(
+        Order $order,
+        User $user,
+        string $comment
+    ): Order
+    {
+        $order = $this->statusProcessor->pushUnmoderateStatus($order);
+        $this->commentService->createComment(
+            $order,
+            $user,
+            $comment,
+            OrderComment::FROM_MODERATION
+        );
+        $this->orderRepository->update();
+        return $order;
+    }
+
+    /**
+     * @param Order $order
+     * @param User $user
+     * @param string $comment
+     * @return Order
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function unCorrectOrder(
+        Order $order,
+        User $user,
+        string $comment
+    ): Order
+    {
+        $order = $this->statusProcessor->pushUnCorrectedStatus($order);
+        $this->commentService->createComment(
+            $order,
+            $user,
+            $comment,
+            OrderComment::FROM_CORRECTION
+        );
+        $this->orderRepository->update();
+        return $order;
     }
 }

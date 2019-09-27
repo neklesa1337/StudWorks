@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import OrderService from '../../Service/OrderService';
 import { OrderStatus } from  '../../Settings';
 
-export default class ModerateOrderField extends React.Component {
+export default class CheckWorkField extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -19,7 +19,7 @@ export default class ModerateOrderField extends React.Component {
                     <button
                         type="button"
                         className="btn btn-block btn-success btn-sm"
-                        onClick={ this.moderateOrder.bind(this) }
+                        onClick={ this.correctOrder.bind(this) }
                     >Принять</button>
                 </div>
                 <div className="form-group col-xs-4">
@@ -38,22 +38,23 @@ export default class ModerateOrderField extends React.Component {
                     <button
                         type="button"
                         className="btn btn-block btn-warning btn-sm"
-                        onClick={ this.unModerateOrder.bind(this) }
+                        onClick={ this.unCorrectOrder.bind(this) }
                     >Коментировать</button>
                 </div>
             </Fragment>
         );
     }
 
-    moderateOrder() {
+    correctOrder() {
         let { order } = this.state;
 
-        let newOrderState = OrderService.moderateOrder(order);
+        let newOrderState = OrderService.correctOrder(order);
         this.state.changeStatus(newOrderState);
     }
 
-    async unModerateOrder() {
+    async unCorrectOrder() {
         let { order, comment } = this.state;
-        let newOrderState = await OrderService.unModerateOrder(order, comment);
+        let newOrderState = await OrderService.unCorrectOrder(order, comment);
+        this.state.changeStatus(newOrderState);
     }
 }

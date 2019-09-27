@@ -1,5 +1,5 @@
 import React from 'react';
-import { convertStatus } from '../../../Orders/Settings';
+import { convertStatus } from '../../Orders/Settings';
 
 export default class OrderLine extends React.Component {
     constructor(props) {

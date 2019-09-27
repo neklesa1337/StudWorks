@@ -2,6 +2,7 @@ import React from 'react';
 import { convertStatus, OrderStatus } from '../../Settings';
 import AssignOrderPerformerField from './AssignOrderPerformerField';
 import ModerateOrderField from './ModerateOrderField';
+import CheckWorkField from './CheckWorkField';
 
 export default class StatusManger extends React.Component {
     constructor(props) {
@@ -52,11 +53,18 @@ export default class StatusManger extends React.Component {
                 changeStatus={ this.changeStatus.bind(this) }
             />;
         }
+
+        if ( status.id === OrderStatus.STATUS_ON_CHECK ) {
+            return <CheckWorkField
+                order={ order }
+                changeStatus={ this.changeStatus.bind(this) }
+            />;
+        }
     }
 
-    changeStatus(statusId) {
+    changeStatus(order) {
         this.setState({
-            status: convertStatus(statusId - 1),
+            status: convertStatus(order.status),
         });
     }
 }

@@ -1,8 +1,8 @@
 import React from 'react';
 import OrderService from '../../../../Orders/Service/OrderService';
 import OrderEditor from '../../../../Lib/Components/OrderEditor';
-import ModerateOrderField from  '../../../../Orders/Components/StatusManager/ModerateOrderField';
-import { convertStatus } from "../../../../Orders/Settings";
+import CheckWorkField from  '../../../../Orders/Components/StatusManager/CheckWorkField';
+import {convertStatus} from "../../../../Orders/Settings";
 
 
 export default class OrderInformation extends React.Component {
@@ -46,7 +46,7 @@ export default class OrderInformation extends React.Component {
                         </div>
 
                         { order ? (
-                            <ModerateOrderField
+                            <CheckWorkField
                                 order={ order }
                                 changeStatus={ this.changeStatus.bind(this) }
                             />
@@ -79,9 +79,9 @@ export default class OrderInformation extends React.Component {
         this.state.close();
     }
 
-    changeStatus(order) {
+    changeStatus(statusId) {
         this.setState({
-            status: convertStatus(order.status),
+            status: convertStatus(statusId - 1),
         });
         this.state.close();
     }

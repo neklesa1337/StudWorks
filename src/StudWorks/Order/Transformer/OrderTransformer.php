@@ -43,6 +43,7 @@ class OrderTransformer
      */
     public function transformOne(Order $order, bool $detailTransform = false): array
     {
+        $filesHub = $order->getFilesHub();
         $data = [
             'id' => $order->getId(),
             'description' => $order->getDescription(),
@@ -50,7 +51,10 @@ class OrderTransformer
             'updateAt' => $order->getUpdated(),
             'status' => $order->getStatus(),
             'customerFiles' => $this->orderFileTransformer->transformMany(
-                $order->getCustomerFiles()->toArray()
+                $filesHub->getCustomerFiles()
+            ),
+            'resultFiles' => $this->orderFileTransformer->transformMany(
+                $filesHub->getCustomerFiles()
             ),
         ];
 

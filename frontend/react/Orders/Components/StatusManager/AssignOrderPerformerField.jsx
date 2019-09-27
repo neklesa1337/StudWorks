@@ -49,9 +49,11 @@ export default class AssignOrderPerformerField extends React.Component {
     updatePerformer(event) {
         let { order } = this.state;
 
-        order.status += 1;
         order.performerId = event.target.value;
-        OrderService.updateOrder(order);
-        this.state.changeStatus(order.status);
+        let newOrderState = OrderService.setPerformer(
+            order,event.target.value
+
+        );
+        this.state.changeStatus(newOrderState);
     }
 }

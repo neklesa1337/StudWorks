@@ -19,7 +19,7 @@ class OrderFileTransformer
         return [
             'id' => $file->getId(),
             'path' => $file->getPath(),
-            'isCustomerFile' => $file->getIsCustomerFile(),
+            'isCustomerFile' => $file->isCustomerFile(),
             'created' => $file->getCreated(),
             'updated' => $file->getUpdated(),
         ];

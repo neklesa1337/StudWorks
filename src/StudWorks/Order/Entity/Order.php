@@ -5,6 +5,7 @@ namespace App\StudWorks\Order\Entity;
 
 use App\StudWorks\Files\Entity\OrderFile;
 use App\StudWorks\Order\Logs\Entity\OrderLog;
+use App\StudWorks\Order\Model\OrderFileHub;
 use App\StudWorks\User\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -73,6 +74,12 @@ class Order
     private $logs;
 
     /**
+     * @var PersistentCollection
+     * @ORM\OneToMany(targetEntity="App\StudWorks\Order\Comment\Entity\OrderComment", mappedBy="order")
+     */
+    private $comments;
+
+    /**
      * @var ?User
      * @ORM\ManyToOne(targetEntity="App\StudWorks\User\Entity\User")
      * @ORM\JoinColumn(name="performer_id", referencedColumnName="id")
@@ -91,6 +98,8 @@ class Order
     {
         $this->status = self::STATUS_CREATED;
         $this->customerFiles = new ArrayCollection();
+        $this->logs = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     /**
@@ -217,6 +226,22 @@ class Order
      * @return Collection|OrderFile[]
      */
     public function getCustomerFiles(): Collection
+    {
+        return $this->customerFiles;
+    }
+
+    /**
+     * @return OrderFileHub
+     */
+    public function getFilesHub(): OrderFileHub
+    {
+        return new OrderFileHub($this->customerFiles->toArray());
+    }
+
+    /**
+     * @return Collection|OrderFile[]
+     */
+    public function getComments(): Collection
     {
         return $this->customerFiles;
     }

@@ -110,7 +110,7 @@ class OrderFile
         return $this;
     }
 
-    public function getIsCustomerFile(): ?bool
+    public function isCustomerFile(): ?bool
     {
         return $this->isCustomerFile;
     }

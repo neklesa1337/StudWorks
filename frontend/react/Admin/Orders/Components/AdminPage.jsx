@@ -1,11 +1,11 @@
 import React from 'react';
-import OrderLine from './OrderLine';
+import OrderLine from '../../../Lib/Components/OrderLine';
 import OrderIds from '../../../Orders/Settings';
 import OrderService from '../../../Orders/Service/OrderService';
 import OrderInformation from './OrderInformation/OrderInformation';
 import { OrderStatus } from '../../../Orders/Settings';
 
-export default class AdminOrders extends React.Component {
+export default class AdminPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
